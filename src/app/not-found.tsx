@@ -1,0 +1,30 @@
+import Link from "next/link";
+
+const NotFound = () => {
+  return (
+    <main className="flex min-h-[calc(100vh-64px)] items-center justify-center bg-white px-6 text-gray-950 transition-colors dark:bg-black dark:text-white">
+      <section className="text-center">
+        <p className="text-8xl font-extrabold text-blue-500 sm:text-9xl">404</p>
+
+        <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+          페이지를 찾을 수 없습니다
+        </h1>
+
+        <p className="mt-5 text-sm leading-7 text-gray-600 dark:text-gray-400">
+          요청하신 페이지가 존재하지 않거나 이동되었어요.
+          <br />
+          홈으로 돌아가 다시 시작해보세요.
+        </p>
+
+        <Link
+          href="/"
+          className="mt-8 inline-flex items-center justify-center rounded-2xl bg-blue-600 px-6 py-4 text-sm font-bold text-white shadow-xl shadow-blue-600/25 transition hover:bg-blue-700"
+        >
+          홈으로 돌아가기
+        </Link>
+      </section>
+    </main>
+  );
+};
+
+export default NotFound;
