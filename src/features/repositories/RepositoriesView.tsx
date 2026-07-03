@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { translations } from "@/constants/translations";
@@ -125,9 +126,7 @@ const RepositoriesView = () => {
         setHasSearched(false);
         setRepos([]);
 
-        const repoData = await getGitHubRepos(username, {
-          perPage: 100,
-        });
+        const repoData = await getGitHubRepos(username);
 
         if (ignore) return;
 
@@ -343,6 +342,14 @@ const RepositoriesView = () => {
               starsLabel={repoT.stars}
               forksLabel={repoT.forks}
               updatedAtLabel={repoT.updatedAt}
+              action={
+                <Link
+                  href={`/languages?username=${encodeURIComponent(username)}`}
+                  className="rounded-xl bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400"
+                >
+                  {t.viewLanguageAnalysis}
+                </Link>
+              }
             />
 
             <GitHubPagination

@@ -88,7 +88,7 @@ export const translations = {
     },
 
     profile: {
-      badge: "GITHUB PROFILE",
+      badge: "PROFILES",
       title: "GitHub 프로필 분석",
       description:
         "GitHub 아이디를 입력하면 사용자 프로필과 저장소 정보를 분석할 수 있습니다.",
@@ -131,6 +131,7 @@ export const translations = {
       emptyGuideTitle: "저장소를 검색해보세요.",
       emptyGuideDescription:
         "해당 사용자의 저장소를 언어, 스타 수, 포크 수, 최근 업데이트 순으로 탐색할 수 있습니다.",
+      viewLanguageAnalysis: "언어 분석 보기",
     },
 
     repo: {
@@ -140,6 +141,29 @@ export const translations = {
       forks: "포크",
       updatedAt: "최근 업데이트",
       noRepos: "해당 유저는 저장소가 없습니다.",
+    },
+
+    languages: {
+      badge: "LANGUAGES",
+      title: "사용 언어 분석",
+      description: "GitHub 저장소를 기반으로 사용 언어 비율을 분석해보세요.",
+      searchPlaceholder: "GitHub 아이디를 입력하세요",
+      searchButton: "분석",
+      loading: "분석 중...",
+      errorMessage: "언어 분석 정보를 불러오지 못했습니다.",
+      emptyGuideTitle: "GitHub 아이디를 입력해보세요.",
+      emptyGuideDescription:
+        "사용자의 저장소 언어 정보를 기반으로 주요 사용 언어를 분석할 수 있습니다.",
+      totalRepos: "총 저장소 수",
+      languageTypes: "사용 언어 수",
+      mainLanguage: "대표 언어",
+      noMainLanguage: "없음",
+      languageChart: "언어 비율 차트",
+      languageRanking: "언어 사용 순위",
+      repoCount: "개 저장소",
+      noLanguageData: "분석할 언어 데이터가 없습니다.",
+      noRepos: "저장소가 없습니다.",
+      viewActivityAnalysis: "활동 분석 보기",
     },
 
     footer: {
@@ -337,6 +361,7 @@ export const translations = {
       emptyGuideTitle: "Search repositories.",
       emptyGuideDescription:
         "Enter a GitHub username to explore repositories by language, stars, forks, and recent updates.",
+      viewLanguageAnalysis: "View language analysis",
     },
 
     repo: {
@@ -346,6 +371,29 @@ export const translations = {
       forks: "Forks",
       updatedAt: "Updated",
       noRepos: "This user has no repositories.",
+    },
+
+    languages: {
+      badge: "LANGUAGES",
+      title: "Language Analysis",
+      description: "Analyze language usage based on GitHub repositories.",
+      searchPlaceholder: "Enter a GitHub username",
+      searchButton: "Analyze",
+      loading: "Analyzing...",
+      errorMessage: "Failed to load language analysis data.",
+      emptyGuideTitle: "Enter a GitHub username.",
+      emptyGuideDescription:
+        "You can analyze the user's main programming languages based on repository data.",
+      totalRepos: "Total Repositories",
+      languageTypes: "Languages Used",
+      mainLanguage: "Main Language",
+      noMainLanguage: "None",
+      languageChart: "Language Ratio Chart",
+      languageRanking: "Language Ranking",
+      repoCount: " repositories",
+      noLanguageData: "No language data available for analysis.",
+      noRepos: "No repositories found.",
+      viewActivityAnalysis: "View Activity Analysis",
     },
 
     footer: {

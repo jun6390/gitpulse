@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { GitHubRepo } from "@/types/github";
 import RepositoryCard from "@/features/github/components/GiHubRepoCard";
 
@@ -9,6 +10,7 @@ interface GitHubRepoListProps {
   starsLabel: string;
   forksLabel: string;
   updatedAtLabel: string;
+  action?: ReactNode;
 }
 
 const GitHubRepoList = ({
@@ -19,12 +21,17 @@ const GitHubRepoList = ({
   starsLabel,
   forksLabel,
   updatedAtLabel,
+  action,
 }: GitHubRepoListProps) => {
   return (
     <section className="mx-auto w-full max-w-2xl rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950">
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-        {title}
-      </h2>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+          {title}
+        </h2>
+
+        {action}
+      </div>
 
       <div className="mt-5 flex flex-col gap-4">
         {repos.map((repo) => (

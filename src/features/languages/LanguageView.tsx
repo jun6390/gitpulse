@@ -1,32 +1,30 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { translations } from "@/constants/translations";
-import { getGitHubRepos, getGitHubUser } from "@/features/github/api";
-import GitHubRepoList from "@/features/github/components/GitHubRepoList";
+import { getGitHubRepos } from "@/features/github/api";
 import GitHubSearchForm from "@/features/github/components/GitHubSearchForm";
 import { useLanguageStore } from "@/stores/languageStore";
-import type { GitHubRepo, GitHubUser } from "@/types/github";
-import ProfileCard from "./components/ProfileCard";
-import { profileMockData } from "./constants/profileMockData";
+import type { GitHubRepo } from "@/types/github";
+import LanguageDoughnutChart from "./components/LanguageDoughnutChart";
+import LanguageEmptyGuide from "./components/LanguageEmptyGuide";
+import LanguageRankingList from "./components/LanguageRankingList";
+import LanguageSummaryCards from "./components/LanguageSummaryCard";
+import { getLanguageStats } from "./utils/getLanguageStats";
 
-const RECENT_REPOS_LIMIT = 6;
-
-const ProfileView = () => {
+const LanguageView = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const { language } = useLanguageStore();
 
-  const t = translations[language].profile;
-  const repoT = translations[language].repo;
+  const t = translations[language].languages;
 
   const username = searchParams.get("username")?.trim() ?? "";
 
-  const [user, setUser] = useState<GitHubUser>(profileMockData);
   const [repos, setRepos] = useState<GitHubRepo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -34,7 +32,6 @@ const ProfileView = () => {
 
   useEffect(() => {
     if (!username) {
-      setUser(profileMockData);
       setRepos([]);
       setErrorMessage("");
       setHasSearched(false);
@@ -44,22 +41,17 @@ const ProfileView = () => {
 
     let ignore = false;
 
-    const fetchProfile = async () => {
+    const fetchRepos = async () => {
       try {
         setIsLoading(true);
         setErrorMessage("");
         setHasSearched(false);
-        setUser(profileMockData);
         setRepos([]);
 
-        const [userData, repoData] = await Promise.all([
-          getGitHubUser(username),
-          getGitHubRepos(username),
-        ]);
+        const repoData = await getGitHubRepos(username);
 
         if (ignore) return;
 
-        setUser(userData);
         setRepos(repoData);
         setHasSearched(true);
       } catch (error) {
@@ -71,7 +63,6 @@ const ProfileView = () => {
           setErrorMessage(t.errorMessage);
         }
 
-        setUser(profileMockData);
         setRepos([]);
         setHasSearched(false);
       } finally {
@@ -81,12 +72,22 @@ const ProfileView = () => {
       }
     };
 
-    fetchProfile();
+    fetchRepos();
 
     return () => {
       ignore = true;
     };
   }, [username, t.errorMessage]);
+
+  const languageStats = useMemo(() => {
+    return getLanguageStats(repos);
+  }, [repos]);
+
+  const mainLanguage = languageStats[0]?.name ?? t.noMainLanguage;
+
+  const activityHref = username
+    ? `/activity?username=${encodeURIComponent(username)}`
+    : "/activity";
 
   const handleClear = () => {
     router.push(pathname, {
@@ -106,8 +107,6 @@ const ProfileView = () => {
       scroll: true,
     });
   };
-
-  const recentRepos = repos.slice(0, RECENT_REPOS_LIMIT);
 
   return (
     <main className="min-h-screen bg-gray-50 px-6 py-12 text-gray-900 transition-colors dark:bg-black dark:text-white">
@@ -144,38 +143,58 @@ const ProfileView = () => {
           )}
         </div>
 
-        <ProfileCard
-          user={user}
-          description={t.noBioText}
-          visitGithubText={t.visitGithub}
-          reposLabel={t.repos}
-          followersLabel={t.followers}
-          followingLabel={t.following}
-        />
+        {!username && !isLoading && !errorMessage && (
+          <LanguageEmptyGuide
+            title={t.emptyGuideTitle}
+            description={t.emptyGuideDescription}
+          />
+        )}
+
+        {hasSearched && !isLoading && !errorMessage && repos.length > 0 && (
+          <>
+            <LanguageSummaryCards
+              totalRepos={repos.length}
+              languageCount={languageStats.length}
+              mainLanguage={mainLanguage}
+              totalReposLabel={t.totalRepos}
+              languageTypesLabel={t.languageTypes}
+              mainLanguageLabel={t.mainLanguage}
+            />
+
+            {languageStats.length > 0 ? (
+              <div className="flex flex-col gap-6">
+                <LanguageDoughnutChart
+                  languageStats={languageStats}
+                  title={t.languageChart}
+                />
+
+                <LanguageRankingList
+                  languageStats={languageStats}
+                  title={t.languageRanking}
+                  repoCountLabel={t.repoCount}
+                />
+              </div>
+            ) : (
+              <p className="mx-auto w-full max-w-2xl rounded-2xl border border-gray-200 bg-white p-6 text-center text-sm font-medium text-gray-500 shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400">
+                {t.noLanguageData}
+              </p>
+            )}
+          </>
+        )}
 
         {hasSearched && !isLoading && !errorMessage && repos.length === 0 && (
           <p className="mx-auto w-full max-w-2xl rounded-2xl border border-gray-200 bg-white p-6 text-center text-sm font-medium text-gray-500 shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400">
-            {repoT.noRepos}
+            {t.noRepos}
           </p>
         )}
 
-        {recentRepos.length > 0 && (
-          <div className="flex flex-col gap-4">
-            <GitHubRepoList
-              repos={recentRepos}
-              title={t.recentRepos}
-              noDescriptionText={repoT.noDescription}
-              noLanguageText={repoT.noLanguage}
-              starsLabel={repoT.stars}
-              forksLabel={repoT.forks}
-              updatedAtLabel={repoT.updatedAt}
-            />
-
+        {hasSearched && !isLoading && !errorMessage && (
+          <div className="flex justify-center">
             <Link
-              href={`/repositories?username=${encodeURIComponent(username)}`}
-              className="mt-8 mx-auto rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-[0.98] px-5 py-3 text-sm font-semibold text-white transition dark:bg-blue-500 dark:hover:bg-blue-600"
+              href={activityHref}
+              className="mx-auto rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-[0.98] px-5 py-3 text-sm font-semibold text-white transition dark:bg-blue-500 dark:hover:bg-blue-600"
             >
-              {t.viewAllRepos}
+              {t.viewActivityAnalysis}
             </Link>
           </div>
         )}
@@ -184,4 +203,4 @@ const ProfileView = () => {
   );
 };
 
-export default ProfileView;
+export default LanguageView;
