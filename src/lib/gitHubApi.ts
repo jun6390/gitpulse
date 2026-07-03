@@ -1,4 +1,4 @@
-// GitHub API 연결
+// GitHub API axios 인스턴스
 
 import axios from "axios";
 

@@ -19,17 +19,15 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <body className="min-h-screen bg-white text-gray-900 transition-colors dark:bg-black dark:text-white">
         <Providers>
-          <SmoothScrollProvider>
-            <div className="flex min-h-screen flex-col bg-white transition-colors dark:bg-black">
-              <Header />
+          <div className="flex min-h-screen flex-col bg-white transition-colors dark:bg-black">
+            <Header />
 
-              <main className="flex-1 bg-white transition-colors dark:bg-black">
-                {children}
-              </main>
+            <main className="flex-1 bg-white transition-colors dark:bg-black">
+              {children}
+            </main>
 
-              <Footer />
-            </div>
-          </SmoothScrollProvider>
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>

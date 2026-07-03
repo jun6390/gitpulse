@@ -1,14 +1,61 @@
-import gitHubApi from "@/lib/github";
-import { GitHubRepo, GitHubUser } from "@/types/github";
+import { isAxiosError } from "axios";
+import gitHubApi from "@/lib/gitHubApi";
+import type { GitHubRepo, GitHubUser } from "@/types/github";
 
-// 유저 가져오기
-export const getUser = async (username: string): Promise<GitHubUser> => {
-  const { data } = await gitHubApi.get(`/users/${username}`);
-  return data;
+export const getGitHubUser = async (username: string): Promise<GitHubUser> => {
+  try {
+    const response = await gitHubApi.get<GitHubUser>(`/users/${username}`);
+
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      if (error.response?.status === 403) {
+        throw new Error("GitHub API 요청 제한에 걸렸습니다.");
+      }
+
+      if (error.response?.status === 404) {
+        throw new Error("GitHub 사용자를 찾을 수 없습니다.");
+      }
+    }
+
+    throw new Error("GitHub 사용자 정보를 불러오지 못했습니다.");
+  }
 };
 
-// 레포 가져오기
-export const getRepos = async (username: string): Promise<GitHubRepo[]> => {
-  const { data } = await gitHubApi.get(`/users/${username}/repos?sort=updated`);
-  return data;
+interface GetGitHubReposOptions {
+  perPage?: number;
+  page?: number;
+}
+
+export const getGitHubRepos = async (
+  username: string,
+  options?: GetGitHubReposOptions,
+): Promise<GitHubRepo[]> => {
+  try {
+    const response = await gitHubApi.get<GitHubRepo[]>(
+      `/users/${username}/repos`,
+      {
+        params: {
+          sort: "updated",
+          direction: "desc",
+          per_page: options?.perPage ?? 6,
+          page: options?.page ?? 1,
+        },
+      },
+    );
+
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      if (error.response?.status === 403) {
+        throw new Error("GitHub API 요청 제한에 걸렸습니다.");
+      }
+
+      if (error.response?.status === 404) {
+        throw new Error("GitHub 사용자를 찾을 수 없습니다.");
+      }
+    }
+
+    throw new Error("저장소를 불러오지 못했습니다.");
+  }
 };

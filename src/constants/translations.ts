@@ -87,6 +87,61 @@ export const translations = {
       searchButton: "검색",
     },
 
+    profile: {
+      badge: "GITHUB PROFILE",
+      title: "GitHub 프로필 분석",
+      description:
+        "GitHub 아이디를 입력하면 사용자 프로필과 저장소 정보를 분석할 수 있습니다.",
+      searchPlaceholder: "GitHub 아이디를 입력하세요",
+      searchButton: "검색",
+
+      noNameText: "이름이 없습니다.",
+      noBioText: "소개 글이 없습니다.",
+      visitGithub: "GitHub 방문",
+      repos: "저장소",
+      followers: "팔로워",
+      following: "팔로잉",
+      loading: "검색 중...",
+      errorMessage: "GitHub 사용자를 찾을 수 없습니다.",
+      recentRepos: "최근 저장소",
+      viewAllRepos: "전체 저장소 보기",
+    },
+
+    repositories: {
+      badge: "REPOSITORIES",
+      title: "GitHub 저장소 검색",
+      description:
+        "GitHub 아이디를 입력하면 공개 저장소 목록을 확인할 수 있습니다.",
+      searchPlaceholder: "GitHub 아이디를 입력하세요",
+      searchButton: "검색",
+      loading: "불러오는 중...",
+      errorMessage: "저장소를 불러오지 못했습니다.",
+      repoListTitle: "저장소 목록",
+
+      allLanguages: "전체 언어",
+
+      sortByUpdated: "최신 업데이트순",
+      sortByStars: "스타순",
+      sortByForks: "포크순",
+
+      previous: "이전",
+      next: "다음",
+      noFilteredRepos: "조건에 맞는 저장소가 없습니다.",
+
+      emptyGuideTitle: "저장소를 검색해보세요.",
+      emptyGuideDescription:
+        "해당 사용자의 저장소를 언어, 스타 수, 포크 수, 최근 업데이트 순으로 탐색할 수 있습니다.",
+    },
+
+    repo: {
+      noDescription: "설명이 없는 저장소입니다.",
+      noLanguage: "언어 없음",
+      stars: "스타",
+      forks: "포크",
+      updatedAt: "최근 업데이트",
+      noRepos: "해당 유저는 저장소가 없습니다.",
+    },
+
     footer: {
       description:
         "GitPulse는 GitHub 사용자 데이터를 기반으로 프로필, 저장소, 언어, 활동 흐름을 한눈에 분석할 수 있는 개발자 인사이트 대시보드입니다.",
@@ -237,6 +292,60 @@ export const translations = {
       description: "Analyze GitHub profiles and repositories.",
       searchPlaceholder: "Enter a GitHub username",
       searchButton: "Search",
+    },
+
+    profile: {
+      badge: "GitHub Profile",
+      title: "GitHub Profile Analysis",
+      description:
+        "Enter a GitHub username to analyze profile and repository information.",
+      searchPlaceholder: "Enter a GitHub username",
+      searchButton: "Search",
+
+      noNameText: "No name provided",
+      noBioText: "No bio provided",
+      visitGithub: "Visit GitHub",
+      repos: "Repos",
+      followers: "Followers",
+      following: "Following",
+      loading: "Searching...",
+      errorMessage: "GitHub user not found.",
+      recentRepos: "Recent Repositories",
+      viewAllRepos: "View all repositories",
+    },
+
+    repositories: {
+      badge: "REPOSITORIES",
+      title: "GitHub Repository Search",
+      description: "Enter a GitHub username to view their public repositories.",
+      searchPlaceholder: "Enter a GitHub username",
+      searchButton: "Search",
+      loading: "Loading...",
+      errorMessage: "Failed to load repositories.",
+      repoListTitle: "Repository List",
+
+      allLanguages: "All languages",
+
+      sortByUpdated: "Recently updated",
+      sortByStars: "Most stars",
+      sortByForks: "Most forks",
+
+      previous: "Previous",
+      next: "Next",
+      noFilteredRepos: "No repositories match the selected filters.",
+
+      emptyGuideTitle: "Search repositories.",
+      emptyGuideDescription:
+        "Enter a GitHub username to explore repositories by language, stars, forks, and recent updates.",
+    },
+
+    repo: {
+      noDescription: "No description provided.",
+      noLanguage: "No language",
+      stars: "Stars",
+      forks: "Forks",
+      updatedAt: "Updated",
+      noRepos: "This user has no repositories.",
     },
 
     footer: {
