@@ -1,10 +1,10 @@
-import LanguageView from "@/features/languages/LanguageView";
 import { Suspense } from "react";
+import ActivityView from "@/features/activity/ActivityView";
 
 const Page = () => {
   return (
     <Suspense fallback={null}>
-      <LanguageView />
+      <ActivityView />
     </Suspense>
   );
 };

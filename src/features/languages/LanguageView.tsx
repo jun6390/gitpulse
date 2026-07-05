@@ -5,14 +5,15 @@ import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { translations } from "@/constants/translations";
 import { getGitHubRepos } from "@/features/github/api";
+import GitHubEmptyGuide from "@/features/github/components/GitHubEmptyGuide";
 import GitHubSearchForm from "@/features/github/components/GitHubSearchForm";
 import { useLanguageStore } from "@/stores/languageStore";
 import type { GitHubRepo } from "@/types/github";
 import LanguageDoughnutChart from "./components/LanguageDoughnutChart";
-import LanguageEmptyGuide from "./components/LanguageEmptyGuide";
 import LanguageRankingList from "./components/LanguageRankingList";
 import LanguageSummaryCards from "./components/LanguageSummaryCard";
 import { getLanguageStats } from "./utils/getLanguageStats";
+import GitHubPageHeader from "../github/components/GitHubPageHeader";
 
 const LanguageView = () => {
   const router = useRouter();
@@ -111,19 +112,11 @@ const LanguageView = () => {
   return (
     <main className="min-h-screen bg-gray-50 px-6 py-12 text-gray-900 transition-colors dark:bg-black dark:text-white">
       <div className="mx-auto flex max-w-5xl flex-col gap-10">
-        <section className="text-center">
-          <p className="mb-3 text-2xl font-semibold text-blue-600 dark:text-blue-400">
-            {t.badge}
-          </p>
-
-          <h1 className="text-3xl font-bold tracking-tight md:text-5xl">
-            {t.title}
-          </h1>
-
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-600 dark:text-gray-400">
-            {t.description}
-          </p>
-        </section>
+        <GitHubPageHeader
+          badge={t.badge}
+          title={t.title}
+          description={t.description}
+        />
 
         <div className="flex flex-col gap-4">
           <GitHubSearchForm
@@ -144,7 +137,7 @@ const LanguageView = () => {
         </div>
 
         {!username && !isLoading && !errorMessage && (
-          <LanguageEmptyGuide
+          <GitHubEmptyGuide
             title={t.emptyGuideTitle}
             description={t.emptyGuideDescription}
           />
@@ -192,7 +185,7 @@ const LanguageView = () => {
           <div className="flex justify-center">
             <Link
               href={activityHref}
-              className="mx-auto rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-[0.98] px-5 py-3 text-sm font-semibold text-white transition dark:bg-blue-500 dark:hover:bg-blue-600"
+              className="mx-auto rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-[0.98] dark:bg-blue-500 dark:hover:bg-blue-600"
             >
               {t.viewActivityAnalysis}
             </Link>

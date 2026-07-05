@@ -1,18 +1,102 @@
 // 다국어 관리
 
+const APP_TITLE = "GitPulse";
+
+const navText = {
+  ko: {
+    overview: "개요",
+    profile: "프로필",
+    repositories: "저장소",
+    languages: "언어 분석",
+    activity: "활동 분석",
+  },
+
+  en: {
+    overview: "Overview",
+    profile: "Profile",
+    repositories: "Repositories",
+    languages: "Languages",
+    activity: "Activity",
+  },
+} as const;
+
+const githubCommonText = {
+  ko: {
+    searchPlaceholder: "GitHub 아이디를 입력하세요",
+    searchButton: "검색",
+    analyzeButton: "분석",
+    enterUsernameTitle: "GitHub 아이디를 입력해보세요.",
+  },
+
+  en: {
+    searchPlaceholder: "Enter a GitHub username",
+    searchButton: "Search",
+    analyzeButton: "Analyze",
+    enterUsernameTitle: "Enter a GitHub username.",
+  },
+} as const;
+
+const activityEventTypes = {
+  ko: {
+    PushEvent: "커밋 푸시",
+    PullRequestEvent: "Pull Request",
+    IssuesEvent: "이슈",
+    IssueCommentEvent: "이슈 댓글",
+    WatchEvent: "스타 추가",
+    ForkEvent: "저장소 포크",
+    CreateEvent: "생성 활동",
+    DeleteEvent: "삭제 활동",
+    ReleaseEvent: "릴리즈",
+    PublicEvent: "공개 전환",
+    PullRequestReviewEvent: "PR 리뷰",
+    PullRequestReviewCommentEvent: "PR 리뷰 댓글",
+  },
+
+  en: {
+    PushEvent: "Push",
+    PullRequestEvent: "Pull Request",
+    IssuesEvent: "Issue",
+    IssueCommentEvent: "Issue Comment",
+    WatchEvent: "Star",
+    ForkEvent: "Fork",
+    CreateEvent: "Create",
+    DeleteEvent: "Delete",
+    ReleaseEvent: "Release",
+    PublicEvent: "Public",
+    PullRequestReviewEvent: "PR Review",
+    PullRequestReviewCommentEvent: "PR Review Comment",
+  },
+} as const;
+
+const techStackLinks = [
+  { label: "Next.js", href: "https://nextjs.org" },
+  { label: "TypeScript", href: "https://www.typescriptlang.org" },
+  { label: "Tailwind CSS", href: "https://tailwindcss.com" },
+  { label: "GitHub API", href: "https://docs.github.com/en/rest" },
+] as const;
+
+const projectLinks = [
+  {
+    label: "GitHub Repository",
+    href: "https://github.com/joon6390",
+  },
+  {
+    label: "Developer Portfolio",
+    href: "https://github.com/joon6390",
+  },
+  {
+    label: "Contact",
+    href: "mailto:example@example.com",
+  },
+] as const;
+
 export const translations = {
   ko: {
     common: {
-      title: "GitPulse",
+      title: APP_TITLE,
     },
 
-    nav: {
-      overview: "개요",
-      profile: "프로필",
-      repositories: "저장소",
-      languages: "언어 분석",
-      activity: "활동 분석",
-    },
+    nav: navText.ko,
 
     home: {
       heroBadge: "개발자 데이터를 더 똑똑하게",
@@ -83,8 +167,8 @@ export const translations = {
       ],
 
       description: "GitHub 사용자의 프로필과 저장소를 분석해보세요.",
-      searchPlaceholder: "GitHub 아이디를 입력하세요",
-      searchButton: "검색",
+      searchPlaceholder: githubCommonText.ko.searchPlaceholder,
+      searchButton: githubCommonText.ko.searchButton,
     },
 
     profile: {
@@ -92,8 +176,8 @@ export const translations = {
       title: "GitHub 프로필 분석",
       description:
         "GitHub 아이디를 입력하면 사용자 프로필과 저장소 정보를 분석할 수 있습니다.",
-      searchPlaceholder: "GitHub 아이디를 입력하세요",
-      searchButton: "검색",
+      searchPlaceholder: githubCommonText.ko.searchPlaceholder,
+      searchButton: githubCommonText.ko.searchButton,
 
       noNameText: "이름이 없습니다.",
       noBioText: "소개 글이 없습니다.",
@@ -112,8 +196,8 @@ export const translations = {
       title: "GitHub 저장소 검색",
       description:
         "GitHub 아이디를 입력하면 공개 저장소 목록을 확인할 수 있습니다.",
-      searchPlaceholder: "GitHub 아이디를 입력하세요",
-      searchButton: "검색",
+      searchPlaceholder: githubCommonText.ko.searchPlaceholder,
+      searchButton: githubCommonText.ko.searchButton,
       loading: "불러오는 중...",
       errorMessage: "저장소를 불러오지 못했습니다.",
       repoListTitle: "저장소 목록",
@@ -147,11 +231,11 @@ export const translations = {
       badge: "LANGUAGES",
       title: "사용 언어 분석",
       description: "GitHub 저장소를 기반으로 사용 언어 비율을 분석해보세요.",
-      searchPlaceholder: "GitHub 아이디를 입력하세요",
-      searchButton: "분석",
+      searchPlaceholder: githubCommonText.ko.searchPlaceholder,
+      searchButton: githubCommonText.ko.analyzeButton,
       loading: "분석 중...",
       errorMessage: "언어 분석 정보를 불러오지 못했습니다.",
-      emptyGuideTitle: "GitHub 아이디를 입력해보세요.",
+      emptyGuideTitle: githubCommonText.ko.enterUsernameTitle,
       emptyGuideDescription:
         "사용자의 저장소 언어 정보를 기반으로 주요 사용 언어를 분석할 수 있습니다.",
       totalRepos: "총 저장소 수",
@@ -166,6 +250,34 @@ export const translations = {
       viewActivityAnalysis: "활동 분석 보기",
     },
 
+    activity: {
+      badge: "ACTIVITIES",
+      title: "활동 분석",
+      description:
+        "GitHub 공개 활동 기록을 기반으로 최근 활동 패턴을 분석해보세요.",
+      searchPlaceholder: githubCommonText.ko.searchPlaceholder,
+      searchButton: githubCommonText.ko.analyzeButton,
+      loading: "활동 분석 중...",
+      errorMessage: "활동 정보를 불러오지 못했습니다.",
+      emptyGuideTitle: githubCommonText.ko.enterUsernameTitle,
+      emptyGuideDescription:
+        "사용자의 공개 GitHub 활동 기록을 기반으로 최근 활동 패턴을 분석할 수 있습니다.",
+      totalActivities: "총 활동 수",
+      pushActivities: "Push 활동",
+      collaborationActivities: "협업 활동",
+      latestActivity: "최근 활동일",
+      noLatestActivity: "없음",
+      activityTypeRatio: "활동 타입 비율",
+      activityRanking: "활동 순위",
+      recentActivities: "최근 활동",
+      noActivityData: "분석할 공개 활동 데이터가 없습니다.",
+      noActivityDataDescription:
+        "최근 공개 활동이 없거나 GitHub에서 제공하는 공개 이벤트 데이터가 없습니다.",
+      activityCount: "개 활동",
+      commits: "개 커밋",
+      eventTypes: activityEventTypes.ko,
+    },
+
     footer: {
       description:
         "GitPulse는 GitHub 사용자 데이터를 기반으로 프로필, 저장소, 언어, 활동 흐름을 한눈에 분석할 수 있는 개발자 인사이트 대시보드입니다.",
@@ -174,11 +286,11 @@ export const translations = {
         {
           title: "메뉴",
           links: [
-            { label: "개요", href: "/" },
-            { label: "프로필", href: "/profile" },
-            { label: "저장소", href: "/repositories" },
-            { label: "언어 분석", href: "/languages" },
-            { label: "활동 분석", href: "/activity" },
+            { label: navText.ko.overview, href: "/" },
+            { label: navText.ko.profile, href: "/profile" },
+            { label: navText.ko.repositories, href: "/repositories" },
+            { label: navText.ko.languages, href: "/languages" },
+            { label: navText.ko.activity, href: "/activity" },
           ],
         },
         {
@@ -192,29 +304,11 @@ export const translations = {
         },
         {
           title: "기술 스택",
-          links: [
-            { label: "Next.js", href: "https://nextjs.org" },
-            { label: "TypeScript", href: "https://www.typescriptlang.org" },
-            { label: "Tailwind CSS", href: "https://tailwindcss.com" },
-            { label: "GitHub API", href: "https://docs.github.com/en/rest" },
-          ],
+          links: techStackLinks,
         },
         {
           title: "프로젝트",
-          links: [
-            {
-              label: "GitHub Repository",
-              href: "https://github.com/joon6390",
-            },
-            {
-              label: "Developer Portfolio",
-              href: "https://github.com/joon6390",
-            },
-            {
-              label: "Contact",
-              href: "mailto:example@example.com",
-            },
-          ],
+          links: projectLinks,
         },
       ],
 
@@ -234,16 +328,10 @@ export const translations = {
 
   en: {
     common: {
-      title: "GitPulse",
+      title: APP_TITLE,
     },
 
-    nav: {
-      overview: "Overview",
-      profile: "Profile",
-      repositories: "Repositories",
-      languages: "Languages",
-      activity: "Activity",
-    },
+    nav: navText.en,
 
     home: {
       heroBadge: "Smarter developer insights",
@@ -314,8 +402,8 @@ export const translations = {
       ],
 
       description: "Analyze GitHub profiles and repositories.",
-      searchPlaceholder: "Enter a GitHub username",
-      searchButton: "Search",
+      searchPlaceholder: githubCommonText.en.searchPlaceholder,
+      searchButton: githubCommonText.en.searchButton,
     },
 
     profile: {
@@ -323,8 +411,8 @@ export const translations = {
       title: "GitHub Profile Analysis",
       description:
         "Enter a GitHub username to analyze profile and repository information.",
-      searchPlaceholder: "Enter a GitHub username",
-      searchButton: "Search",
+      searchPlaceholder: githubCommonText.en.searchPlaceholder,
+      searchButton: githubCommonText.en.searchButton,
 
       noNameText: "No name provided",
       noBioText: "No bio provided",
@@ -342,8 +430,8 @@ export const translations = {
       badge: "REPOSITORIES",
       title: "GitHub Repository Search",
       description: "Enter a GitHub username to view their public repositories.",
-      searchPlaceholder: "Enter a GitHub username",
-      searchButton: "Search",
+      searchPlaceholder: githubCommonText.en.searchPlaceholder,
+      searchButton: githubCommonText.en.searchButton,
       loading: "Loading...",
       errorMessage: "Failed to load repositories.",
       repoListTitle: "Repository List",
@@ -377,11 +465,11 @@ export const translations = {
       badge: "LANGUAGES",
       title: "Language Analysis",
       description: "Analyze language usage based on GitHub repositories.",
-      searchPlaceholder: "Enter a GitHub username",
-      searchButton: "Analyze",
+      searchPlaceholder: githubCommonText.en.searchPlaceholder,
+      searchButton: githubCommonText.en.analyzeButton,
       loading: "Analyzing...",
       errorMessage: "Failed to load language analysis data.",
-      emptyGuideTitle: "Enter a GitHub username.",
+      emptyGuideTitle: githubCommonText.en.enterUsernameTitle,
       emptyGuideDescription:
         "You can analyze the user's main programming languages based on repository data.",
       totalRepos: "Total Repositories",
@@ -396,6 +484,34 @@ export const translations = {
       viewActivityAnalysis: "View Activity Analysis",
     },
 
+    activity: {
+      badge: "ACTIVITIES",
+      title: "Activity Analysis",
+      description:
+        "Analyze recent activity patterns based on public GitHub events.",
+      searchPlaceholder: githubCommonText.en.searchPlaceholder,
+      searchButton: githubCommonText.en.analyzeButton,
+      loading: "Analyzing activity...",
+      errorMessage: "Failed to load activity information.",
+      emptyGuideTitle: githubCommonText.en.enterUsernameTitle,
+      emptyGuideDescription:
+        "You can analyze recent activity patterns based on public GitHub events.",
+      totalActivities: "Total Activities",
+      pushActivities: "Push Activities",
+      collaborationActivities: "Collaboration",
+      latestActivity: "Latest Activity",
+      noLatestActivity: "None",
+      activityTypeRatio: "Activity Type Ratio",
+      activityRanking: "Activity Ranking",
+      recentActivities: "Recent Activities",
+      noActivityData: "No public activity data to analyze.",
+      noActivityDataDescription:
+        "There are no recent public activities or public event data provided by GitHub.",
+      activityCount: " activities",
+      commits: " commits",
+      eventTypes: activityEventTypes.en,
+    },
+
     footer: {
       description:
         "GitPulse is a developer insight dashboard that helps you analyze GitHub profiles, repositories, languages, and activity trends in one place.",
@@ -404,11 +520,11 @@ export const translations = {
         {
           title: "Menu",
           links: [
-            { label: "Overview", href: "/" },
-            { label: "Profile", href: "/profile" },
-            { label: "Repositories", href: "/repositories" },
-            { label: "Languages", href: "/languages" },
-            { label: "Activity", href: "/activity" },
+            { label: navText.en.overview, href: "/" },
+            { label: navText.en.profile, href: "/profile" },
+            { label: navText.en.repositories, href: "/repositories" },
+            { label: navText.en.languages, href: "/languages" },
+            { label: navText.en.activity, href: "/activity" },
           ],
         },
         {
@@ -422,29 +538,11 @@ export const translations = {
         },
         {
           title: "Tech Stack",
-          links: [
-            { label: "Next.js", href: "https://nextjs.org" },
-            { label: "TypeScript", href: "https://www.typescriptlang.org" },
-            { label: "Tailwind CSS", href: "https://tailwindcss.com" },
-            { label: "GitHub API", href: "https://docs.github.com/en/rest" },
-          ],
+          links: techStackLinks,
         },
         {
           title: "Project",
-          links: [
-            {
-              label: "GitHub Repository",
-              href: "https://github.com/joon6390",
-            },
-            {
-              label: "Developer Portfolio",
-              href: "https://github.com/joon6390",
-            },
-            {
-              label: "Contact",
-              href: "mailto:example@example.com",
-            },
-          ],
+          links: projectLinks,
         },
       ],
 

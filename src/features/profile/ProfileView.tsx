@@ -11,6 +11,7 @@ import { useLanguageStore } from "@/stores/languageStore";
 import type { GitHubRepo, GitHubUser } from "@/types/github";
 import ProfileCard from "./components/ProfileCard";
 import { profileMockData } from "./constants/profileMockData";
+import GitHubPageHeader from "../github/components/GitHubPageHeader";
 
 const RECENT_REPOS_LIMIT = 6;
 
@@ -112,19 +113,11 @@ const ProfileView = () => {
   return (
     <main className="min-h-screen bg-gray-50 px-6 py-12 text-gray-900 transition-colors dark:bg-black dark:text-white">
       <div className="mx-auto flex max-w-5xl flex-col gap-10">
-        <section className="text-center">
-          <p className="mb-3 text-2xl font-semibold text-blue-600 dark:text-blue-400">
-            {t.badge}
-          </p>
-
-          <h1 className="text-3xl font-bold tracking-tight md:text-5xl">
-            {t.title}
-          </h1>
-
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-600 dark:text-gray-400">
-            {t.description}
-          </p>
-        </section>
+        <GitHubPageHeader
+          badge={t.badge}
+          title={t.title}
+          description={t.description}
+        />
 
         <div className="flex flex-col gap-4">
           <GitHubSearchForm
