@@ -1,7 +1,12 @@
 import RepositoriesView from "@/features/repositories/RepositoriesView";
+import { Suspense } from "react";
 
 const RepositoriesPage = () => {
-  return <RepositoriesView />;
+  return (
+    <Suspense fallback={null}>
+      <RepositoriesView />
+    </Suspense>
+  );
 };
 
 export default RepositoriesPage;

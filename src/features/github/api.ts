@@ -1,4 +1,4 @@
-import type { GitHubRepo, GitHubUser } from "@/types/github";
+import type { GitHubEvent, GitHubRepo, GitHubUser } from "@/types/github";
 
 export const getGitHubUser = async (username: string): Promise<GitHubUser> => {
   const response = await fetch(
@@ -21,6 +21,22 @@ export const getGitHubRepos = async (
 
   if (!response.ok) {
     throw new Error("GitHub 저장소 정보를 불러오지 못했습니다.");
+  }
+
+  return response.json();
+};
+
+export const getGitHubEvents = async (
+  username: string,
+): Promise<GitHubEvent[]> => {
+  const response = await fetch(
+    `https://api.github.com/users/${encodeURIComponent(
+      username,
+    )}/events/public?per_page=30`,
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch GitHub events");
   }
 
   return response.json();

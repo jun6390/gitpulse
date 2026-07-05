@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { translations } from "@/constants/translations";
 import { getGitHubRepos } from "@/features/github/api";
+import GitHubEmptyGuide from "@/features/github/components/GitHubEmptyGuide";
 import GitHubPagination from "@/features/github/components/GitHubPagination";
 import GitHubRepoList from "@/features/github/components/GitHubRepoList";
 import GitHubSearchForm from "@/features/github/components/GitHubSearchForm";
@@ -13,6 +14,7 @@ import type { GitHubRepo } from "@/types/github";
 import RepositoryFilter, {
   type RepositorySortOption,
 } from "./components/RepositoryFilter";
+import GitHubPageHeader from "../github/components/GitHubPageHeader";
 
 const PAGE_SIZE = 6;
 
@@ -256,19 +258,11 @@ const RepositoriesView = () => {
   return (
     <main className="min-h-screen bg-gray-50 px-6 py-12 text-gray-900 transition-colors dark:bg-black dark:text-white">
       <div className="mx-auto flex max-w-5xl flex-col gap-10">
-        <section className="text-center">
-          <p className="mb-3 text-2xl font-semibold text-blue-600 dark:text-blue-400">
-            {t.badge}
-          </p>
-
-          <h1 className="text-3xl font-bold tracking-tight md:text-5xl">
-            {t.title}
-          </h1>
-
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-600 dark:text-gray-400">
-            {t.description}
-          </p>
-        </section>
+        <GitHubPageHeader
+          badge={t.badge}
+          title={t.title}
+          description={t.description}
+        />
 
         <div className="flex flex-col gap-4">
           <GitHubSearchForm
@@ -289,15 +283,10 @@ const RepositoriesView = () => {
         </div>
 
         {!username && !isLoading && !errorMessage && (
-          <div className="mx-auto w-full max-w-2xl rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950">
-            <p className="text-base font-semibold text-gray-900 dark:text-white">
-              {t.emptyGuideTitle}
-            </p>
-
-            <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
-              {t.emptyGuideDescription}
-            </p>
-          </div>
+          <GitHubEmptyGuide
+            title={t.emptyGuideTitle}
+            description={t.emptyGuideDescription}
+          />
         )}
 
         {repos.length > 0 && (
@@ -321,15 +310,11 @@ const RepositoriesView = () => {
         )}
 
         {hasSearched && !isLoading && !errorMessage && repos.length === 0 && (
-          <p className="mx-auto w-full max-w-2xl rounded-2xl border border-gray-200 bg-white p-6 text-center text-sm font-medium text-gray-500 shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400">
-            {repoT.noRepos}
-          </p>
+          <GitHubEmptyGuide title={repoT.noRepos} />
         )}
 
         {repos.length > 0 && filteredRepos.length === 0 && (
-          <p className="mx-auto w-full max-w-2xl rounded-2xl border border-gray-200 bg-white p-6 text-center text-sm font-medium text-gray-500 shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400">
-            {t.noFilteredRepos}
-          </p>
+          <GitHubEmptyGuide title={t.noFilteredRepos} />
         )}
 
         {paginatedRepos.length > 0 && (
