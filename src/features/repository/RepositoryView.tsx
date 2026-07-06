@@ -11,7 +11,7 @@ import GitHubPageHeader from "@/features/github/components/GitHubPageHeader";
 import GitHubPagination from "@/features/github/components/GitHubPagination";
 import GitHubCardSkeleton from "@/features/github/components/GitHubCardSkeleton";
 import GitHubRepoList from "@/features/github/components/GitHubRepoList";
-import GitHubSearchForm from "@/features/github/components/GitHubSearchForm";
+import GitHubSearchSection from "@/features/github/components/GitHubSearchSection";
 import { useLanguageStore } from "@/stores/languageStore";
 import type { GitHubRepo } from "@/types/github";
 import RepositoryFilter, {
@@ -40,7 +40,7 @@ const getValidPage = (value: string | null) => {
   return page;
 };
 
-const RepositoriesView = () => {
+const RepositoryView = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -226,23 +226,16 @@ const RepositoriesView = () => {
           description={t.description}
         />
 
-        <div className="flex flex-col gap-4">
-          <GitHubSearchForm
-            placeholder={t.searchPlaceholder}
-            buttonText={t.searchButton}
-            loadingText={t.loading}
-            isLoading={isLoading}
-            initialUsername={username}
-            onSearch={handleSearch}
-            onClear={handleClear}
-          />
-
-          {errorMessage && (
-            <p className="text-center text-sm font-medium text-red-500">
-              {errorMessage}
-            </p>
-          )}
-        </div>
+        <GitHubSearchSection
+          placeholder={t.searchPlaceholder}
+          buttonText={t.searchButton}
+          loadingText={t.loading}
+          isLoading={isLoading}
+          initialUsername={username}
+          errorMessage={errorMessage}
+          onSearch={handleSearch}
+          onClear={handleClear}
+        />
 
         {isLoading && <GitHubCardSkeleton label={t.loading} />}
 
@@ -315,4 +308,4 @@ const RepositoriesView = () => {
   );
 };
 
-export default RepositoriesView;
+export default RepositoryView;

@@ -3,6 +3,10 @@ import type {
   GitHubRankingResponse,
   GitHubRankingUser,
 } from "@/types/github";
+import {
+  GITHUB_API_URL,
+  getGitHubHeaders,
+} from "../_lib/github";
 
 interface GitHubSearchUserItem {
   id: number;
@@ -28,7 +32,6 @@ interface GitHubUserDetailResponse {
   public_repos: number;
 }
 
-const GITHUB_API_URL = "https://api.github.com";
 const PAGE_SIZE = 10;
 const MAX_RANKING_USERS = 100;
 const MAX_PAGE = MAX_RANKING_USERS / PAGE_SIZE;
@@ -41,19 +44,6 @@ const getValidPage = (value: string | null) => {
   }
 
   return Math.min(page, MAX_PAGE);
-};
-
-const getGitHubHeaders = (): HeadersInit => {
-  const headers: HeadersInit = {
-    Accept: "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
-  };
-
-  if (process.env.GITHUB_TOKEN) {
-    headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-  }
-
-  return headers;
 };
 
 export async function GET(request: NextRequest) {

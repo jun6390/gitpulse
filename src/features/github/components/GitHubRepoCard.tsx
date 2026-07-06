@@ -1,6 +1,6 @@
 import type { GitHubRepo } from "@/types/github";
 
-interface RepositoryCardProps {
+interface GitHubRepoCardProps {
   repo: GitHubRepo;
   noDescriptionText: string;
   noLanguageText: string;
@@ -17,14 +17,14 @@ const formatDate = (date: string) => {
   }).format(new Date(date));
 };
 
-const RepositoryCard = ({
+const GitHubRepoCard = ({
   repo,
   noDescriptionText,
   noLanguageText,
   starsLabel,
   forksLabel,
   updatedAtLabel,
-}: RepositoryCardProps) => {
+}: GitHubRepoCardProps) => {
   return (
     <a
       href={repo.html_url}
@@ -69,4 +69,4 @@ const RepositoryCard = ({
   );
 };
 
-export default RepositoryCard;
+export default GitHubRepoCard;

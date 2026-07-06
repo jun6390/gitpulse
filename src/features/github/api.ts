@@ -38,9 +38,7 @@ export const getGitHubEvents = async (
   username: string,
 ): Promise<GitHubEvent[]> => {
   const response = await fetch(
-    `https://api.github.com/users/${encodeURIComponent(
-      username,
-    )}/events/public?per_page=30`,
+    `/api/github/activity?username=${encodeURIComponent(username)}`,
   );
 
   if (!response.ok) {

@@ -5,7 +5,7 @@ import { useLanguageStore } from "@/stores/languageStore";
 import MotionReveal from "@/common/MotionReveal";
 import { PrimaryButtonLink } from "@/components/PrimaryButton";
 
-const cardLinks = ["/profile", "/repositories", "/languages", "/activity"];
+const cardLinks = ["/profile", "/repository", "/language", "/activity"];
 
 const HomeCtaSection = () => {
   const { language } = useLanguageStore();

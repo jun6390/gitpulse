@@ -306,8 +306,8 @@ export const translations = {
           links: [
             { label: navText.ko.overview, href: "/" },
             { label: navText.ko.profile, href: "/profile" },
-            { label: navText.ko.repositories, href: "/repositories" },
-            { label: navText.ko.languages, href: "/languages" },
+            { label: navText.ko.repositories, href: "/repository" },
+            { label: navText.ko.languages, href: "/language" },
             { label: navText.ko.activity, href: "/activity" },
           ],
         },
@@ -315,8 +315,8 @@ export const translations = {
           title: "기능",
           links: [
             { label: "GitHub 프로필 조회", href: "/profile" },
-            { label: "저장소 인사이트", href: "/repositories" },
-            { label: "언어 사용량 분석", href: "/languages" },
+            { label: "저장소 인사이트", href: "/repository" },
+            { label: "언어 사용량 분석", href: "/language" },
             { label: "활동 흐름 분석", href: "/activity" },
           ],
         },
@@ -556,8 +556,8 @@ export const translations = {
           links: [
             { label: navText.en.overview, href: "/" },
             { label: navText.en.profile, href: "/profile" },
-            { label: navText.en.repositories, href: "/repositories" },
-            { label: navText.en.languages, href: "/languages" },
+            { label: navText.en.repositories, href: "/repository" },
+            { label: navText.en.languages, href: "/language" },
             { label: navText.en.activity, href: "/activity" },
           ],
         },
@@ -565,8 +565,8 @@ export const translations = {
           title: "Features",
           links: [
             { label: "GitHub Profile Search", href: "/profile" },
-            { label: "Repository Insights", href: "/repositories" },
-            { label: "Language Analysis", href: "/languages" },
+            { label: "Repository Insights", href: "/repository" },
+            { label: "Language Analysis", href: "/language" },
             { label: "Activity Overview", href: "/activity" },
           ],
         },

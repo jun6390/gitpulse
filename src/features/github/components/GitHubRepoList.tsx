@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { GitHubRepo } from "@/types/github";
-import RepositoryCard from "@/features/github/components/GiHubRepoCard";
+import GitHubRepoCard from "@/features/github/components/GitHubRepoCard";
 import GitHubCard from "@/features/github/components/GitHubCard";
 
 interface GitHubRepoListProps {
@@ -36,7 +36,7 @@ const GitHubRepoList = ({
 
       <div className="mt-5 flex flex-col gap-4">
         {repos.map((repo) => (
-          <RepositoryCard
+          <GitHubRepoCard
             key={repo.id}
             repo={repo}
             noDescriptionText={noDescriptionText}

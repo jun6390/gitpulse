@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { PrimaryButtonLink } from "@/components/PrimaryButton";
 import { translations } from "@/constants/translations";
@@ -9,7 +8,8 @@ import GitHubCard from "@/features/github/components/GitHubCard";
 import GitHubCardSkeleton from "@/features/github/components/GitHubCardSkeleton";
 import GitHubPageHeader from "@/features/github/components/GitHubPageHeader";
 import GitHubRepoList from "@/features/github/components/GitHubRepoList";
-import GitHubSearchForm from "@/features/github/components/GitHubSearchForm";
+import GitHubSearchSection from "@/features/github/components/GitHubSearchSection";
+import { useGitHubUsernameSearch } from "@/features/github/hooks/useGitHubUsernameSearch";
 import { useLanguageStore } from "@/stores/languageStore";
 import type { GitHubRepo, GitHubUser } from "@/types/github";
 import ProfileCard from "./components/ProfileCard";
@@ -18,17 +18,14 @@ import { profileMockData } from "./constants/profileMockData";
 const RECENT_REPOS_LIMIT = 6;
 
 const ProfileView = () => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { username, clearUsername, searchUsername } =
+    useGitHubUsernameSearch();
 
   const { language } = useLanguageStore();
 
   const t = translations[language].profile;
   const repoT = translations[language].repo;
   const commonT = translations[language].common;
-
-  const username = searchParams.get("username")?.trim() ?? "";
 
   const userQuery = useQuery<GitHubUser>({
     queryKey: ["github-user", username],
@@ -52,25 +49,6 @@ const ProfileView = () => {
   const user = userQuery.data ?? profileMockData;
   const repos = reposQuery.data ?? [];
 
-  const handleClear = () => {
-    router.push(pathname, {
-      scroll: true,
-    });
-  };
-
-  const handleSearch = (nextUsername: string) => {
-    const trimmedUsername = nextUsername.trim();
-
-    if (!trimmedUsername) {
-      handleClear();
-      return;
-    }
-
-    router.push(`${pathname}?username=${encodeURIComponent(trimmedUsername)}`, {
-      scroll: true,
-    });
-  };
-
   const recentRepos = repos.slice(0, RECENT_REPOS_LIMIT);
 
   return (
@@ -82,23 +60,16 @@ const ProfileView = () => {
           description={t.description}
         />
 
-        <div className="flex flex-col gap-4">
-          <GitHubSearchForm
-            placeholder={t.searchPlaceholder}
-            buttonText={t.searchButton}
-            loadingText={t.loading}
-            isLoading={isLoading}
-            initialUsername={username}
-            onSearch={handleSearch}
-            onClear={handleClear}
-          />
-
-          {errorMessage && (
-            <p className="text-center text-sm font-medium text-red-500">
-              {errorMessage}
-            </p>
-          )}
-        </div>
+        <GitHubSearchSection
+          placeholder={t.searchPlaceholder}
+          buttonText={t.searchButton}
+          loadingText={t.loading}
+          isLoading={isLoading}
+          initialUsername={username}
+          errorMessage={errorMessage}
+          onSearch={searchUsername}
+          onClear={clearUsername}
+        />
 
         {isLoading ? (
           <GitHubCardSkeleton label={t.loading} />

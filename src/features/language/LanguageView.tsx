@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { PrimaryButtonLink } from "@/components/PrimaryButton";
 import { translations } from "@/constants/translations";
@@ -9,25 +8,23 @@ import { getGitHubRepos } from "@/features/github/api";
 import GitHubCardSkeleton from "@/features/github/components/GitHubCardSkeleton";
 import GitHubEmptyGuide from "@/features/github/components/GitHubEmptyGuide";
 import GitHubPageHeader from "@/features/github/components/GitHubPageHeader";
-import GitHubSearchForm from "@/features/github/components/GitHubSearchForm";
+import GitHubSearchSection from "@/features/github/components/GitHubSearchSection";
+import { useGitHubUsernameSearch } from "@/features/github/hooks/useGitHubUsernameSearch";
 import { useLanguageStore } from "@/stores/languageStore";
 import type { GitHubRepo } from "@/types/github";
 import LanguageDoughnutChart from "./components/LanguageDoughnutChart";
 import LanguageRankingList from "./components/LanguageRankingList";
-import LanguageSummaryCards from "./components/LanguageSummaryCard";
+import LanguageSummaryCard from "./components/LanguageSummaryCard";
 import { getLanguageStats } from "./utils/getLanguageStats";
 
 const LanguageView = () => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { username, clearUsername, searchUsername } =
+    useGitHubUsernameSearch();
 
   const { language } = useLanguageStore();
 
   const t = translations[language].languages;
   const commonT = translations[language].common;
-
-  const username = searchParams.get("username")?.trim() ?? "";
 
   const {
     data: repos = [],
@@ -52,25 +49,6 @@ const LanguageView = () => {
     ? `/activity?username=${encodeURIComponent(username)}`
     : "/activity";
 
-  const handleClear = () => {
-    router.push(pathname, {
-      scroll: true,
-    });
-  };
-
-  const handleSearch = (nextUsername: string) => {
-    const trimmedUsername = nextUsername.trim();
-
-    if (!trimmedUsername) {
-      handleClear();
-      return;
-    }
-
-    router.push(`${pathname}?username=${encodeURIComponent(trimmedUsername)}`, {
-      scroll: true,
-    });
-  };
-
   return (
     <main className="min-h-screen bg-gray-50 px-6 py-12 text-gray-900 transition-colors dark:bg-black dark:text-white">
       <div className="mx-auto flex max-w-5xl flex-col gap-10">
@@ -80,23 +58,16 @@ const LanguageView = () => {
           description={t.description}
         />
 
-        <div className="flex flex-col gap-4">
-          <GitHubSearchForm
-            placeholder={t.searchPlaceholder}
-            buttonText={t.searchButton}
-            loadingText={t.loading}
-            isLoading={isLoading}
-            initialUsername={username}
-            onSearch={handleSearch}
-            onClear={handleClear}
-          />
-
-          {errorMessage && (
-            <p className="text-center text-sm font-medium text-red-500">
-              {errorMessage}
-            </p>
-          )}
-        </div>
+        <GitHubSearchSection
+          placeholder={t.searchPlaceholder}
+          buttonText={t.searchButton}
+          loadingText={t.loading}
+          isLoading={isLoading}
+          initialUsername={username}
+          errorMessage={errorMessage}
+          onSearch={searchUsername}
+          onClear={clearUsername}
+        />
 
         {isLoading && (
           <GitHubCardSkeleton
@@ -115,7 +86,7 @@ const LanguageView = () => {
 
         {hasSearched && !isLoading && !errorMessage && repos.length > 0 && (
           <>
-            <LanguageSummaryCards
+            <LanguageSummaryCard
               totalRepos={repos.length}
               languageCount={languageStats.length}
               mainLanguage={mainLanguage}

@@ -1,10 +1,10 @@
-import RepositoriesView from "@/features/repository/RepositoriesView";
+import RepositoryView from "@/features/repository/RepositoryView";
 import { Suspense } from "react";
 
 const RepositoriesPage = () => {
   return (
     <Suspense fallback={null}>
-      <RepositoriesView />
+      <RepositoryView />
     </Suspense>
   );
 };

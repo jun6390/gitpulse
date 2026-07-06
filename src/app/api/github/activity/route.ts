@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   }
 
   return proxyGitHubResponse(
-    `/users/${encodeURIComponent(username)}`,
-    "Failed to fetch GitHub user.",
+    `/users/${encodeURIComponent(username)}/events/public?per_page=30`,
+    "Failed to fetch GitHub activity.",
   );
 }
