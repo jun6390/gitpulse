@@ -18,7 +18,7 @@ const LanguageSummaryCard = ({
   mainLanguageLabel,
 }: LanguageSummaryCardProps) => {
   return (
-    <section className="mx-auto w-2xl grid gap-4 md:grid-cols-3">
+    <section className="mx-auto w-full max-w-2xl grid gap-4 md:grid-cols-3 ">
       <GitHubCard radius="2xl" className="p-6 text-center">
         <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
           {totalReposLabel}

@@ -55,11 +55,7 @@ const ActivitySummaryCard = ({
   return (
     <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {cards.map((card) => (
-        <GitHubCard
-          as="article"
-          key={card.label}
-          className="p-5"
-        >
+        <GitHubCard as="article" key={card.label} className="p-5">
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
             {card.label}
           </p>
