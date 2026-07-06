@@ -1,4 +1,4 @@
-import RepositoriesView from "@/features/repositories/RepositoriesView";
+import RepositoriesView from "@/features/repository/RepositoriesView";
 import { Suspense } from "react";
 
 const RepositoriesPage = () => {

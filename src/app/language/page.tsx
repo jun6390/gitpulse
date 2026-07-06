@@ -1,4 +1,4 @@
-import LanguageView from "@/features/languages/LanguageView";
+import LanguageView from "@/features/language/LanguageView";
 import { Suspense } from "react";
 
 const Page = () => {

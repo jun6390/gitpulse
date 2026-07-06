@@ -1,17 +1,19 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { PrimaryButtonLink } from "@/components/PrimaryButton";
 import { translations } from "@/constants/translations";
 import { getGitHubRepos, getGitHubUser } from "@/features/github/api";
+import GitHubCard from "@/features/github/components/GitHubCard";
+import GitHubCardSkeleton from "@/features/github/components/GitHubCardSkeleton";
+import GitHubPageHeader from "@/features/github/components/GitHubPageHeader";
 import GitHubRepoList from "@/features/github/components/GitHubRepoList";
 import GitHubSearchForm from "@/features/github/components/GitHubSearchForm";
 import { useLanguageStore } from "@/stores/languageStore";
 import type { GitHubRepo, GitHubUser } from "@/types/github";
 import ProfileCard from "./components/ProfileCard";
 import { profileMockData } from "./constants/profileMockData";
-import GitHubPageHeader from "../github/components/GitHubPageHeader";
 
 const RECENT_REPOS_LIMIT = 6;
 
@@ -24,6 +26,7 @@ const ProfileView = () => {
 
   const t = translations[language].profile;
   const repoT = translations[language].repo;
+  const commonT = translations[language].common;
 
   const username = searchParams.get("username")?.trim() ?? "";
 
@@ -63,15 +66,10 @@ const ProfileView = () => {
         setUser(userData);
         setRepos(repoData);
         setHasSearched(true);
-      } catch (error) {
+      } catch {
         if (ignore) return;
 
-        if (error instanceof Error) {
-          setErrorMessage(error.message);
-        } else {
-          setErrorMessage(t.errorMessage);
-        }
-
+        setErrorMessage(commonT.githubUserNotFound);
         setUser(profileMockData);
         setRepos([]);
         setHasSearched(false);
@@ -87,7 +85,7 @@ const ProfileView = () => {
     return () => {
       ignore = true;
     };
-  }, [username, t.errorMessage]);
+  }, [username, commonT.githubUserNotFound]);
 
   const handleClear = () => {
     router.push(pathname, {
@@ -137,19 +135,27 @@ const ProfileView = () => {
           )}
         </div>
 
-        <ProfileCard
-          user={user}
-          description={t.noBioText}
-          visitGithubText={t.visitGithub}
-          reposLabel={t.repos}
-          followersLabel={t.followers}
-          followingLabel={t.following}
-        />
+        {isLoading ? (
+          <GitHubCardSkeleton label={t.loading} />
+        ) : (
+          <ProfileCard
+            user={user}
+            description={t.noBioText}
+            visitGithubText={t.visitGithub}
+            reposLabel={t.repos}
+            followersLabel={t.followers}
+            followingLabel={t.following}
+          />
+        )}
 
         {hasSearched && !isLoading && !errorMessage && repos.length === 0 && (
-          <p className="mx-auto w-full max-w-2xl rounded-2xl border border-gray-200 bg-white p-6 text-center text-sm font-medium text-gray-500 shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400">
+          <GitHubCard
+            as="p"
+            radius="2xl"
+            className="mx-auto w-full max-w-2xl p-6 text-center text-sm font-medium text-gray-500 dark:text-gray-400"
+          >
             {repoT.noRepos}
-          </p>
+          </GitHubCard>
         )}
 
         {recentRepos.length > 0 && (
@@ -164,12 +170,12 @@ const ProfileView = () => {
               updatedAtLabel={repoT.updatedAt}
             />
 
-            <Link
-              href={`/repositories?username=${encodeURIComponent(username)}`}
-              className="mt-8 mx-auto rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-[0.98] px-5 py-3 text-sm font-semibold text-white transition dark:bg-blue-500 dark:hover:bg-blue-600"
+            <PrimaryButtonLink
+              href={`/repository?username=${encodeURIComponent(username)}`}
+              className="mx-auto mt-8 inline-flex items-center justify-center px-5 py-3 text-sm font-semibold"
             >
               {t.viewAllRepos}
-            </Link>
+            </PrimaryButtonLink>
           </div>
         )}
       </div>

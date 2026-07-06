@@ -4,7 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { translations } from "@/constants/translations";
 import { getGitHubEvents } from "@/features/github/api";
+import GitHubCardSkeleton from "@/features/github/components/GitHubCardSkeleton";
 import GitHubEmptyGuide from "@/features/github/components/GitHubEmptyGuide";
+import GitHubPageHeader from "@/features/github/components/GitHubPageHeader";
 import GitHubSearchForm from "@/features/github/components/GitHubSearchForm";
 import { useLanguageStore } from "@/stores/languageStore";
 import type { GitHubEvent } from "@/types/github";
@@ -13,7 +15,6 @@ import ActivityRankingList from "./components/ActivityRankingList";
 import ActivityRecentList from "./components/ActivityRecentList";
 import ActivitySummaryCard from "./components/ActivitySummaryCard";
 import { getActivityStats } from "./utils/getActivityStats";
-import GitHubPageHeader from "../github/components/GitHubPageHeader";
 
 const ActivityView = () => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const ActivityView = () => {
   const { language } = useLanguageStore();
 
   const t = translations[language].activity;
+  const commonT = translations[language].common;
 
   const username = searchParams.get("username")?.trim() ?? "";
 
@@ -78,15 +80,10 @@ const ActivityView = () => {
 
         setEvents(eventData);
         setHasSearched(true);
-      } catch (error) {
+      } catch {
         if (ignore) return;
 
-        if (error instanceof Error) {
-          setErrorMessage(error.message);
-        } else {
-          setErrorMessage(t.errorMessage);
-        }
-
+        setErrorMessage(commonT.githubUserNotFound);
         setEvents([]);
         setHasSearched(false);
       } finally {
@@ -101,7 +98,7 @@ const ActivityView = () => {
     return () => {
       ignore = true;
     };
-  }, [username, t.errorMessage]);
+  }, [username, commonT.githubUserNotFound]);
 
   return (
     <main className="min-h-screen bg-gray-50 px-6 py-12 text-gray-900 transition-colors dark:bg-black dark:text-white">
@@ -129,6 +126,14 @@ const ActivityView = () => {
             </p>
           )}
         </div>
+
+        {isLoading && (
+          <GitHubCardSkeleton
+            label={t.loading}
+            count={4}
+            className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
+          />
+        )}
 
         {!username && !isLoading && !errorMessage && (
           <GitHubEmptyGuide

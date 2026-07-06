@@ -2,10 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
-import { useLenis } from "lenis/react";
 
 const ScrollTopButton = () => {
-  const lenis = useLenis();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -23,15 +21,6 @@ const ScrollTopButton = () => {
   }, []);
 
   const handleClickTop = () => {
-    if (lenis) {
-      lenis.scrollTo(0, {
-        duration: 1.2,
-        offset: 0,
-      });
-
-      return;
-    }
-
     window.scrollTo({
       top: 0,
       behavior: "smooth",

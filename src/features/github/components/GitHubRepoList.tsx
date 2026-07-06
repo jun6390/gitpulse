@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { GitHubRepo } from "@/types/github";
 import RepositoryCard from "@/features/github/components/GiHubRepoCard";
+import GitHubCard from "@/features/github/components/GitHubCard";
 
 interface GitHubRepoListProps {
   repos: GitHubRepo[];
@@ -24,7 +25,7 @@ const GitHubRepoList = ({
   action,
 }: GitHubRepoListProps) => {
   return (
-    <section className="mx-auto w-full max-w-2xl rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950">
+    <GitHubCard as="section" className="mx-auto w-full max-w-2xl p-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl font-bold text-gray-900 dark:text-white">
           {title}
@@ -46,7 +47,7 @@ const GitHubRepoList = ({
           />
         ))}
       </div>
-    </section>
+    </GitHubCard>
   );
 };
 

@@ -1,3 +1,5 @@
+import GitHubCard from "@/features/github/components/GitHubCard";
+
 interface GitHubEmptyGuideProps {
   title: string;
   description?: string;
@@ -5,7 +7,10 @@ interface GitHubEmptyGuideProps {
 
 const GitHubEmptyGuide = ({ title, description }: GitHubEmptyGuideProps) => {
   return (
-    <div className="mx-auto w-full max-w-2xl rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950">
+    <GitHubCard
+      radius="2xl"
+      className="mx-auto w-full max-w-2xl p-6 text-center"
+    >
       <p className="text-base font-semibold text-gray-900 dark:text-white">
         {title}
       </p>
@@ -15,7 +20,7 @@ const GitHubEmptyGuide = ({ title, description }: GitHubEmptyGuideProps) => {
           {description}
         </p>
       )}
-    </div>
+    </GitHubCard>
   );
 };
 

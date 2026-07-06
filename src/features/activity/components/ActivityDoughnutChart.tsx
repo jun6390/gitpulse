@@ -8,6 +8,7 @@ import {
   type ChartOptions,
 } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import GitHubCard from "@/features/github/components/GitHubCard";
 import type { ActivityStat } from "../utils/getActivityStats";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -56,7 +57,7 @@ const ActivityDoughnutChart = ({
   };
 
   return (
-    <section className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950">
+    <GitHubCard as="section" className="p-6">
       <h2 className="text-xl font-bold text-gray-900 dark:text-white">
         {title}
       </h2>
@@ -64,7 +65,7 @@ const ActivityDoughnutChart = ({
       <div className="mt-6 h-72">
         <Doughnut data={data} options={options} />
       </div>
-    </section>
+    </GitHubCard>
   );
 };
 

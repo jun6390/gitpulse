@@ -1,3 +1,4 @@
+import GitHubCard from "@/features/github/components/GitHubCard";
 import type { LanguageStat } from "../utils/getLanguageStats";
 
 interface LanguageRankingListProps {
@@ -12,7 +13,7 @@ const LanguageRankingList = ({
   repoCountLabel,
 }: LanguageRankingListProps) => {
   return (
-    <section className="mx-auto w-full max-w-2xl rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950">
+    <GitHubCard as="section" className="mx-auto w-full max-w-2xl p-6">
       <h2 className="text-xl font-bold text-gray-900 dark:text-white">
         {title}
       </h2>
@@ -49,7 +50,7 @@ const LanguageRankingList = ({
           </div>
         ))}
       </div>
-    </section>
+    </GitHubCard>
   );
 };
 

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { PrimaryButtonLink } from "@/components/PrimaryButton";
 
 const NotFound = () => {
   return (
@@ -16,12 +16,12 @@ const NotFound = () => {
           홈으로 돌아가 다시 시작해보세요.
         </p>
 
-        <Link
+        <PrimaryButtonLink
           href="/"
-          className="mt-8 inline-flex items-center justify-center rounded-2xl bg-blue-600 px-6 py-4 text-sm font-bold text-white shadow-xl shadow-blue-600/25 transition hover:bg-blue-700"
+          className="mt-8 inline-flex items-center justify-center px-6 py-4 text-sm font-bold shadow-xl shadow-blue-600/25"
         >
           홈으로 돌아가기
-        </Link>
+        </PrimaryButtonLink>
       </section>
     </main>
   );

@@ -1,3 +1,4 @@
+import GitHubCard from "@/features/github/components/GitHubCard";
 import type { GitHubEvent } from "@/types/github";
 
 interface ActivityRecentListProps {
@@ -42,7 +43,7 @@ const ActivityRecentList = ({
   commitsLabel,
 }: ActivityRecentListProps) => {
   return (
-    <section className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950">
+    <GitHubCard as="section" className="p-6">
       <h2 className="text-xl font-bold text-gray-900 dark:text-white">
         {title}
       </h2>
@@ -80,7 +81,7 @@ const ActivityRecentList = ({
           ))}
         </ul>
       )}
-    </section>
+    </GitHubCard>
   );
 };
 

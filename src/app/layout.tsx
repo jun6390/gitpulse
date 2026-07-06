@@ -3,6 +3,7 @@ import "./globals.css";
 import Providers from "./providers";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollTopButton from "@/components/ScrollTopButton";
 
 export const metadata: Metadata = {
   title: "GitPulse",
@@ -27,6 +28,8 @@ export default function RootLayout({
 
             <Footer />
           </div>
+
+          <ScrollTopButton />
         </Providers>
       </body>
     </html>

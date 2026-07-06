@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { translations } from "@/constants/translations";
 import { useLanguageStore } from "@/stores/languageStore";
 import MotionReveal from "@/common/MotionReveal";
+import { PrimaryButtonLink } from "@/components/PrimaryButton";
 
 const cardLinks = ["/profile", "/repositories", "/languages", "/activity"];
 
@@ -28,19 +28,21 @@ const HomeCtaSection = () => {
 
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           {t.home.ctaCards.map((card, index) => (
-            <div key={card.title} className="flex flex-col items-start">
+            <div key={card.title} className="flex h-full flex-col items-start">
               <h3 className="text-2xl font-bold text-white">{card.title}</h3>
 
-              <p className="whitespace-pre-line mt-5 min-h-[96px] text-base font-semibold leading-7 text-gray-400">
+              <p className="mt-5 whitespace-pre-line text-base font-semibold leading-7 text-gray-400">
                 {card.description}
               </p>
 
-              <Link
-                href={cardLinks[index]}
-                className="mt-8 rounded-lg bg-blue-500 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-600"
-              >
-                {card.button}
-              </Link>
+              <div className="mt-auto pt-8">
+                <PrimaryButtonLink
+                  href={cardLinks[index]}
+                  className="inline-flex items-center justify-center px-5 py-3 text-sm font-bold"
+                >
+                  {card.button}
+                </PrimaryButtonLink>
+              </div>
             </div>
           ))}
         </div>

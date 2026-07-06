@@ -9,6 +9,7 @@ const navText = {
     repositories: "저장소",
     languages: "언어 분석",
     activity: "활동 분석",
+    ranking: "랭킹",
   },
 
   en: {
@@ -17,6 +18,7 @@ const navText = {
     repositories: "Repositories",
     languages: "Languages",
     activity: "Activity",
+    ranking: "Ranking",
   },
 } as const;
 
@@ -94,6 +96,7 @@ export const translations = {
   ko: {
     common: {
       title: APP_TITLE,
+      githubUserNotFound: "해당 GitHub 사용자는 존재하지 않습니다.",
     },
 
     nav: navText.ko,
@@ -186,7 +189,6 @@ export const translations = {
       followers: "팔로워",
       following: "팔로잉",
       loading: "검색 중...",
-      errorMessage: "GitHub 사용자를 찾을 수 없습니다.",
       recentRepos: "최근 저장소",
       viewAllRepos: "전체 저장소 보기",
     },
@@ -199,7 +201,6 @@ export const translations = {
       searchPlaceholder: githubCommonText.ko.searchPlaceholder,
       searchButton: githubCommonText.ko.searchButton,
       loading: "불러오는 중...",
-      errorMessage: "저장소를 불러오지 못했습니다.",
       repoListTitle: "저장소 목록",
 
       allLanguages: "전체 언어",
@@ -234,7 +235,6 @@ export const translations = {
       searchPlaceholder: githubCommonText.ko.searchPlaceholder,
       searchButton: githubCommonText.ko.analyzeButton,
       loading: "분석 중...",
-      errorMessage: "언어 분석 정보를 불러오지 못했습니다.",
       emptyGuideTitle: githubCommonText.ko.enterUsernameTitle,
       emptyGuideDescription:
         "사용자의 저장소 언어 정보를 기반으로 주요 사용 언어를 분석할 수 있습니다.",
@@ -258,7 +258,6 @@ export const translations = {
       searchPlaceholder: githubCommonText.ko.searchPlaceholder,
       searchButton: githubCommonText.ko.analyzeButton,
       loading: "활동 분석 중...",
-      errorMessage: "활동 정보를 불러오지 못했습니다.",
       emptyGuideTitle: githubCommonText.ko.enterUsernameTitle,
       emptyGuideDescription:
         "사용자의 공개 GitHub 활동 기록을 기반으로 최근 활동 패턴을 분석할 수 있습니다.",
@@ -276,6 +275,25 @@ export const translations = {
       activityCount: "개 활동",
       commits: "개 커밋",
       eventTypes: activityEventTypes.ko,
+    },
+
+    ranking: {
+      badge: "RANKINGS",
+      title: "GitHub 인기 사용자 랭킹",
+      description:
+        "언어와 지역을 기준으로 GitHub에서 영향력 있는 개발자들을 확인해보세요.",
+      loading: "랭킹 정보를 불러오는 중...",
+      errorMessage: "랭킹 정보를 불러오지 못했습니다.",
+      emptyTitle: "랭킹 결과가 없습니다.",
+      emptyDescription: "다른 언어나 지역 조건으로 다시 시도해보세요.",
+      followers: "팔로워",
+      following: "팔로잉",
+      repos: "저장소",
+      noBio: "소개 글이 없습니다.",
+      noLocation: "지역 정보 없음",
+      profileLink: "프로필 보기",
+      previous: "이전",
+      next: "다음",
     },
 
     footer: {
@@ -329,6 +347,7 @@ export const translations = {
   en: {
     common: {
       title: APP_TITLE,
+      githubUserNotFound: "This GitHub user does not exist.",
     },
 
     nav: navText.en,
@@ -421,7 +440,6 @@ export const translations = {
       followers: "Followers",
       following: "Following",
       loading: "Searching...",
-      errorMessage: "GitHub user not found.",
       recentRepos: "Recent Repositories",
       viewAllRepos: "View all repositories",
     },
@@ -433,7 +451,6 @@ export const translations = {
       searchPlaceholder: githubCommonText.en.searchPlaceholder,
       searchButton: githubCommonText.en.searchButton,
       loading: "Loading...",
-      errorMessage: "Failed to load repositories.",
       repoListTitle: "Repository List",
 
       allLanguages: "All languages",
@@ -468,7 +485,6 @@ export const translations = {
       searchPlaceholder: githubCommonText.en.searchPlaceholder,
       searchButton: githubCommonText.en.analyzeButton,
       loading: "Analyzing...",
-      errorMessage: "Failed to load language analysis data.",
       emptyGuideTitle: githubCommonText.en.enterUsernameTitle,
       emptyGuideDescription:
         "You can analyze the user's main programming languages based on repository data.",
@@ -492,7 +508,6 @@ export const translations = {
       searchPlaceholder: githubCommonText.en.searchPlaceholder,
       searchButton: githubCommonText.en.analyzeButton,
       loading: "Analyzing activity...",
-      errorMessage: "Failed to load activity information.",
       emptyGuideTitle: githubCommonText.en.enterUsernameTitle,
       emptyGuideDescription:
         "You can analyze recent activity patterns based on public GitHub events.",
@@ -510,6 +525,25 @@ export const translations = {
       activityCount: " activities",
       commits: " commits",
       eventTypes: activityEventTypes.en,
+    },
+
+    ranking: {
+      badge: "RANKING",
+      title: "Popular GitHub Users",
+      description:
+        "Explore influential GitHub developers by language and location.",
+      loading: "Loading ranking data...",
+      errorMessage: "Failed to load ranking data.",
+      emptyTitle: "No ranking results found.",
+      emptyDescription: "Try another language or location filter.",
+      followers: "Followers",
+      following: "Following",
+      repos: "Repos",
+      noBio: "No bio available.",
+      noLocation: "No location",
+      profileLink: "View profile",
+      previous: "Previous",
+      next: "Next",
     },
 
     footer: {

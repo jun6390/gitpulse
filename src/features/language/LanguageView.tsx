@@ -1,11 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { PrimaryButtonLink } from "@/components/PrimaryButton";
 import { translations } from "@/constants/translations";
 import { getGitHubRepos } from "@/features/github/api";
+import GitHubCardSkeleton from "@/features/github/components/GitHubCardSkeleton";
 import GitHubEmptyGuide from "@/features/github/components/GitHubEmptyGuide";
+import GitHubPageHeader from "@/features/github/components/GitHubPageHeader";
 import GitHubSearchForm from "@/features/github/components/GitHubSearchForm";
 import { useLanguageStore } from "@/stores/languageStore";
 import type { GitHubRepo } from "@/types/github";
@@ -13,7 +15,6 @@ import LanguageDoughnutChart from "./components/LanguageDoughnutChart";
 import LanguageRankingList from "./components/LanguageRankingList";
 import LanguageSummaryCards from "./components/LanguageSummaryCard";
 import { getLanguageStats } from "./utils/getLanguageStats";
-import GitHubPageHeader from "../github/components/GitHubPageHeader";
 
 const LanguageView = () => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const LanguageView = () => {
   const { language } = useLanguageStore();
 
   const t = translations[language].languages;
+  const commonT = translations[language].common;
 
   const username = searchParams.get("username")?.trim() ?? "";
 
@@ -55,15 +57,10 @@ const LanguageView = () => {
 
         setRepos(repoData);
         setHasSearched(true);
-      } catch (error) {
+      } catch {
         if (ignore) return;
 
-        if (error instanceof Error) {
-          setErrorMessage(error.message);
-        } else {
-          setErrorMessage(t.errorMessage);
-        }
-
+        setErrorMessage(commonT.githubUserNotFound);
         setRepos([]);
         setHasSearched(false);
       } finally {
@@ -78,7 +75,7 @@ const LanguageView = () => {
     return () => {
       ignore = true;
     };
-  }, [username, t.errorMessage]);
+  }, [username, commonT.githubUserNotFound]);
 
   const languageStats = useMemo(() => {
     return getLanguageStats(repos);
@@ -136,6 +133,14 @@ const LanguageView = () => {
           )}
         </div>
 
+        {isLoading && (
+          <GitHubCardSkeleton
+            label={t.loading}
+            count={3}
+            className="grid grid-cols-1 gap-5 md:grid-cols-3"
+          />
+        )}
+
         {!username && !isLoading && !errorMessage && (
           <GitHubEmptyGuide
             title={t.emptyGuideTitle}
@@ -168,27 +173,26 @@ const LanguageView = () => {
                 />
               </div>
             ) : (
-              <p className="mx-auto w-full max-w-2xl rounded-2xl border border-gray-200 bg-white p-6 text-center text-sm font-medium text-gray-500 shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400">
-                {t.noLanguageData}
-              </p>
+              <GitHubEmptyGuide
+                title={t.noLanguageData}
+                description={t.noLanguageData}
+              />
             )}
           </>
         )}
 
         {hasSearched && !isLoading && !errorMessage && repos.length === 0 && (
-          <p className="mx-auto w-full max-w-2xl rounded-2xl border border-gray-200 bg-white p-6 text-center text-sm font-medium text-gray-500 shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950 dark:text-gray-400">
-            {t.noRepos}
-          </p>
+          <GitHubEmptyGuide title={t.noRepos} description={t.noRepos} />
         )}
 
         {hasSearched && !isLoading && !errorMessage && (
           <div className="flex justify-center">
-            <Link
+            <PrimaryButtonLink
               href={activityHref}
-              className="mx-auto rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-[0.98] dark:bg-blue-500 dark:hover:bg-blue-600"
+              className="mx-auto inline-flex items-center justify-center px-5 py-3 text-sm font-semibold"
             >
               {t.viewActivityAnalysis}
-            </Link>
+            </PrimaryButtonLink>
           </div>
         )}
       </div>

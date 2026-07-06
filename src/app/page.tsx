@@ -2,7 +2,6 @@ import HeroSection from "@/components/HeroSection";
 import HomeCtaSection from "@/components/HomeCtaSection";
 import HomeFeatureSection from "@/components/HomeFeatureSection";
 import HomeIntroSection from "@/components/HomeIntroSection";
-import ScrollTopButton from "@/components/ScrollTopButton";
 
 const Page = () => {
   return (
@@ -11,7 +10,6 @@ const Page = () => {
       <HomeIntroSection />
       <HomeFeatureSection />
       <HomeCtaSection />
-      <ScrollTopButton />
     </>
   );
 };

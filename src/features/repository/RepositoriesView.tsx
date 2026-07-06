@@ -1,12 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { PrimaryButtonLink } from "@/components/PrimaryButton";
 import { translations } from "@/constants/translations";
 import { getGitHubRepos } from "@/features/github/api";
 import GitHubEmptyGuide from "@/features/github/components/GitHubEmptyGuide";
+import GitHubPageHeader from "@/features/github/components/GitHubPageHeader";
 import GitHubPagination from "@/features/github/components/GitHubPagination";
+import GitHubCardSkeleton from "@/features/github/components/GitHubCardSkeleton";
 import GitHubRepoList from "@/features/github/components/GitHubRepoList";
 import GitHubSearchForm from "@/features/github/components/GitHubSearchForm";
 import { useLanguageStore } from "@/stores/languageStore";
@@ -14,7 +16,6 @@ import type { GitHubRepo } from "@/types/github";
 import RepositoryFilter, {
   type RepositorySortOption,
 } from "./components/RepositoryFilter";
-import GitHubPageHeader from "../github/components/GitHubPageHeader";
 
 const PAGE_SIZE = 6;
 
@@ -47,6 +48,7 @@ const RepositoriesView = () => {
 
   const t = translations[language].repositories;
   const repoT = translations[language].repo;
+  const commonT = translations[language].common;
 
   const username = searchParams.get("username")?.trim() ?? "";
   const selectedLanguage = searchParams.get("language") ?? "all";
@@ -134,15 +136,10 @@ const RepositoriesView = () => {
 
         setRepos(repoData);
         setHasSearched(true);
-      } catch (error) {
+      } catch {
         if (ignore) return;
 
-        if (error instanceof Error) {
-          setErrorMessage(error.message);
-        } else {
-          setErrorMessage(t.errorMessage);
-        }
-
+        setErrorMessage(commonT.githubUserNotFound);
         setRepos([]);
         setHasSearched(false);
       } finally {
@@ -157,7 +154,7 @@ const RepositoriesView = () => {
     return () => {
       ignore = true;
     };
-  }, [username, t.errorMessage]);
+  }, [username, commonT.githubUserNotFound]);
 
   const languages = useMemo(() => {
     return Array.from(
@@ -282,6 +279,8 @@ const RepositoriesView = () => {
           )}
         </div>
 
+        {isLoading && <GitHubCardSkeleton label={t.loading} />}
+
         {!username && !isLoading && !errorMessage && (
           <GitHubEmptyGuide
             title={t.emptyGuideTitle}
@@ -328,12 +327,12 @@ const RepositoriesView = () => {
               forksLabel={repoT.forks}
               updatedAtLabel={repoT.updatedAt}
               action={
-                <Link
-                  href={`/languages?username=${encodeURIComponent(username)}`}
-                  className="rounded-xl bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400"
+                <PrimaryButtonLink
+                  href={`/language?username=${encodeURIComponent(username)}`}
+                  className="inline-flex items-center justify-center px-4 py-2 text-center text-sm font-semibold"
                 >
                   {t.viewLanguageAnalysis}
-                </Link>
+                </PrimaryButtonLink>
               }
             />
 

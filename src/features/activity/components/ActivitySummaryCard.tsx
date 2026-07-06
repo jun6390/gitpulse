@@ -1,3 +1,5 @@
+import GitHubCard from "@/features/github/components/GitHubCard";
+
 interface ActivitySummaryCardProps {
   totalActivities: number;
   pushCount: number;
@@ -53,9 +55,10 @@ const ActivitySummaryCard = ({
   return (
     <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {cards.map((card) => (
-        <article
+        <GitHubCard
+          as="article"
           key={card.label}
-          className="rounded-3xl border border-gray-200 bg-white p-5 shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-950"
+          className="p-5"
         >
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
             {card.label}
@@ -63,7 +66,7 @@ const ActivitySummaryCard = ({
           <p className="mt-3 text-2xl font-bold text-gray-900 dark:text-white">
             {card.value}
           </p>
-        </article>
+        </GitHubCard>
       ))}
     </section>
   );

@@ -2,6 +2,7 @@
 
 import type { FormEvent } from "react";
 import { useEffect, useState } from "react";
+import PrimaryButton from "@/components/PrimaryButton";
 
 interface GitHubSearchFormProps {
   placeholder: string;
@@ -84,13 +85,13 @@ const GitHubSearchForm = ({
         )}
       </div>
 
-      <button
+      <PrimaryButton
         type="submit"
         disabled={isLoading}
-        className="h-12 rounded-xl bg-blue-600 px-6 text-sm font-semibold text-white transition hover:bg-blue-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 dark:bg-blue-500 dark:hover:bg-blue-600"
+        className="h-12 px-6 text-sm font-semibold"
       >
         {isLoading ? loadingText : buttonText}
-      </button>
+      </PrimaryButton>
     </form>
   );
 };

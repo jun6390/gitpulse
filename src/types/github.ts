@@ -1,10 +1,12 @@
 // 깃허브 유저 타입
 export interface GitHubUser {
+  id: number;
   login: string;
   avatar_url: string;
   html_url: string;
   name: string | null;
   bio: string | null;
+  location: string | null;
   followers: number;
   following: number;
   public_repos: number;
@@ -60,4 +62,14 @@ export interface GitHubEvent {
   };
   public: boolean;
   created_at: string;
+}
+
+// 깃허브 랭킹 유저 타입
+export type GitHubRankingUser = GitHubUser;
+
+export interface GitHubRankingResponse {
+  users: GitHubRankingUser[];
+  totalCount: number;
+  totalPages: number;
+  page: number;
 }

@@ -12,9 +12,10 @@ import HeaderControls from "@/components/HeaderControls";
 const navItems = [
   { key: "overview", href: "/" },
   { key: "profile", href: "/profile" },
-  { key: "repositories", href: "/repositories" },
-  { key: "languages", href: "/languages" },
+  { key: "repositories", href: "/repository" },
+  { key: "languages", href: "/language" },
   { key: "activity", href: "/activity" },
+  { key: "ranking", href: "/ranking" },
 ] as const;
 
 const Header = () => {
