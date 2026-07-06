@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { PrimaryButtonLink } from "@/components/PrimaryButton";
 import { translations } from "@/constants/translations";
 import { getGitHubRepos } from "@/features/github/api";
@@ -55,10 +56,18 @@ const RepositoriesView = () => {
   const sortOption = getValidSortOption(searchParams.get("sort"));
   const currentPage = getValidPage(searchParams.get("page"));
 
-  const [repos, setRepos] = useState<GitHubRepo[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [hasSearched, setHasSearched] = useState(false);
+  const {
+    data: repos = [],
+    isLoading,
+    isError,
+    isSuccess,
+  } = useQuery<GitHubRepo[]>({
+    queryKey: ["github-repos", username],
+    queryFn: () => getGitHubRepos(username),
+    enabled: Boolean(username),
+  });
+  const errorMessage = isError ? commonT.githubUserNotFound : "";
+  const hasSearched = Boolean(username) && isSuccess;
 
   const updateSearchParams = useCallback(
     (params: {
@@ -111,50 +120,6 @@ const RepositoriesView = () => {
     },
     [pathname, router, searchParams],
   );
-
-  useEffect(() => {
-    if (!username) {
-      setRepos([]);
-      setErrorMessage("");
-      setHasSearched(false);
-      setIsLoading(false);
-      return;
-    }
-
-    let ignore = false;
-
-    const fetchRepos = async () => {
-      try {
-        setIsLoading(true);
-        setErrorMessage("");
-        setHasSearched(false);
-        setRepos([]);
-
-        const repoData = await getGitHubRepos(username);
-
-        if (ignore) return;
-
-        setRepos(repoData);
-        setHasSearched(true);
-      } catch {
-        if (ignore) return;
-
-        setErrorMessage(commonT.githubUserNotFound);
-        setRepos([]);
-        setHasSearched(false);
-      } finally {
-        if (!ignore) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchRepos();
-
-    return () => {
-      ignore = true;
-    };
-  }, [username, commonT.githubUserNotFound]);
 
   const languages = useMemo(() => {
     return Array.from(

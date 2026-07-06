@@ -1,7 +1,7 @@
 "use client";
 
 import type { FormEvent } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PrimaryButton from "@/components/PrimaryButton";
 
 interface GitHubSearchFormProps {
@@ -14,7 +14,7 @@ interface GitHubSearchFormProps {
   onClear: () => void;
 }
 
-const GitHubSearchForm = ({
+const GitHubSearchFormFields = ({
   placeholder,
   buttonText,
   loadingText,
@@ -24,10 +24,6 @@ const GitHubSearchForm = ({
   onClear,
 }: GitHubSearchFormProps) => {
   const [username, setUsername] = useState(initialUsername);
-
-  useEffect(() => {
-    setUsername(initialUsername);
-  }, [initialUsername]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -93,6 +89,15 @@ const GitHubSearchForm = ({
         {isLoading ? loadingText : buttonText}
       </PrimaryButton>
     </form>
+  );
+};
+
+const GitHubSearchForm = (props: GitHubSearchFormProps) => {
+  return (
+    <GitHubSearchFormFields
+      key={props.initialUsername ?? ""}
+      {...props}
+    />
   );
 };
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { PrimaryButtonLink } from "@/components/PrimaryButton";
 import { translations } from "@/constants/translations";
 import { getGitHubRepos, getGitHubUser } from "@/features/github/api";
@@ -30,62 +30,27 @@ const ProfileView = () => {
 
   const username = searchParams.get("username")?.trim() ?? "";
 
-  const [user, setUser] = useState<GitHubUser>(profileMockData);
-  const [repos, setRepos] = useState<GitHubRepo[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [hasSearched, setHasSearched] = useState(false);
+  const userQuery = useQuery<GitHubUser>({
+    queryKey: ["github-user", username],
+    queryFn: () => getGitHubUser(username),
+    enabled: Boolean(username),
+  });
+  const reposQuery = useQuery<GitHubRepo[]>({
+    queryKey: ["github-repos", username],
+    queryFn: () => getGitHubRepos(username),
+    enabled: Boolean(username),
+  });
 
-  useEffect(() => {
-    if (!username) {
-      setUser(profileMockData);
-      setRepos([]);
-      setErrorMessage("");
-      setHasSearched(false);
-      setIsLoading(false);
-      return;
-    }
-
-    let ignore = false;
-
-    const fetchProfile = async () => {
-      try {
-        setIsLoading(true);
-        setErrorMessage("");
-        setHasSearched(false);
-        setUser(profileMockData);
-        setRepos([]);
-
-        const [userData, repoData] = await Promise.all([
-          getGitHubUser(username),
-          getGitHubRepos(username),
-        ]);
-
-        if (ignore) return;
-
-        setUser(userData);
-        setRepos(repoData);
-        setHasSearched(true);
-      } catch {
-        if (ignore) return;
-
-        setErrorMessage(commonT.githubUserNotFound);
-        setUser(profileMockData);
-        setRepos([]);
-        setHasSearched(false);
-      } finally {
-        if (!ignore) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchProfile();
-
-    return () => {
-      ignore = true;
-    };
-  }, [username, commonT.githubUserNotFound]);
+  const isError = userQuery.isError || reposQuery.isError;
+  const isLoading =
+    Boolean(username) &&
+    !isError &&
+    (userQuery.isLoading || reposQuery.isLoading);
+  const hasSearched =
+    Boolean(username) && userQuery.isSuccess && reposQuery.isSuccess;
+  const errorMessage = isError ? commonT.githubUserNotFound : "";
+  const user = userQuery.data ?? profileMockData;
+  const repos = reposQuery.data ?? [];
 
   const handleClear = () => {
     router.push(pathname, {

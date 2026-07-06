@@ -24,18 +24,16 @@ const Header = () => {
 
   const t = translations[language];
 
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileMenuPath, setMobileMenuPath] = useState<string | null>(null);
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
 
   const lastScrollY = useRef(0);
-
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [pathname]);
+  const isMobileMenuOpen = mobileMenuPath === pathname;
+  const shouldHideHeader =
+    pathname === "/" && !isMobileMenuOpen && isHeaderHidden;
 
   useEffect(() => {
     if (pathname !== "/" || isMobileMenuOpen) {
-      setIsHeaderHidden(false);
       return;
     }
 
@@ -67,12 +65,16 @@ const Header = () => {
     <>
       <header
         className={`fixed left-0 top-0 z-50 w-full transform-gpu border-b border-gray-200 bg-white/80 backdrop-blur-xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform dark:border-gray-800 dark:bg-black/80 ${
-          isHeaderHidden ? "-translate-y-full" : "translate-y-0"
+          shouldHideHeader ? "-translate-y-full" : "translate-y-0"
         }`}
       >
         <div className="mx-auto flex h-16 w-full max-w-[1140px] items-center justify-between px-6">
           {/* 로고 */}
-          <Link href="/" className="flex items-center gap-3">
+          <Link
+            href="/"
+            onClick={() => setMobileMenuPath(null)}
+            className="flex items-center gap-3"
+          >
             <Image
               src="/images/logo.svg"
               alt="GitPulse Logo"
@@ -119,7 +121,12 @@ const Header = () => {
           {/* 모바일 햄버거 버튼 */}
           <button
             type="button"
-            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            onClick={() => {
+              setMobileMenuPath((currentPath) =>
+                currentPath === pathname ? null : pathname,
+              );
+              setIsHeaderHidden(false);
+            }}
             className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-white text-gray-900 shadow-sm transition hover:bg-gray-100 md:hidden dark:border-white/10 dark:bg-black dark:text-white dark:hover:bg-white/10"
             aria-label="mobile menu"
           >
@@ -151,7 +158,7 @@ const Header = () => {
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={() => setMobileMenuPath(null)}
                     className={`rounded-2xl px-4 py-3 text-sm font-semibold transition-colors ${
                       isActive
                         ? "bg-gray-900 text-white dark:bg-white dark:text-black"
@@ -167,7 +174,7 @@ const Header = () => {
             <div className="mt-5 border-t border-gray-200 pt-5 dark:border-gray-800">
               <HeaderControls
                 dropdownPosition="left"
-                onSelectComplete={() => setIsMobileMenuOpen(false)}
+                onSelectComplete={() => setMobileMenuPath(null)}
               />
             </div>
           </div>

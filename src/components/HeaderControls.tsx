@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
 import { Check, Globe, Moon, Sun } from "lucide-react";
 import { translations } from "@/constants/translations";
@@ -12,6 +12,8 @@ type HeaderControlsProps = {
   onSelectComplete?: () => void;
 };
 
+const subscribeToClient = () => () => {};
+
 const HeaderControls = ({
   dropdownPosition = "right",
   onSelectComplete,
@@ -21,19 +23,19 @@ const HeaderControls = ({
 
   const t = translations[language];
 
-  const [mounted, setMounted] = useState(false);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [isThemeOpen, setIsThemeOpen] = useState(false);
 
   const menuRef = useRef<HTMLDivElement>(null);
 
+  const isMounted = useSyncExternalStore(
+    subscribeToClient,
+    () => true,
+    () => false,
+  );
   const isDark = resolvedTheme === "dark";
   const dropdownPositionClass =
     dropdownPosition === "right" ? "right-0" : "left-0";
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -121,7 +123,7 @@ const HeaderControls = ({
           className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-white text-gray-900 shadow-sm transition hover:bg-gray-100 dark:border-white/10 dark:bg-black dark:text-white dark:hover:bg-white/10"
           aria-label="theme menu"
         >
-          {mounted && isDark ? <Moon size={20} /> : <Sun size={20} />}
+          {isMounted && isDark ? <Moon size={20} /> : <Sun size={20} />}
         </button>
 
         {isThemeOpen && (
