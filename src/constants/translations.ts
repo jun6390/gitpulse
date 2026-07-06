@@ -209,8 +209,11 @@ export const translations = {
       sortByStars: "스타순",
       sortByForks: "포크순",
 
+      first: "맨 처음",
       previous: "이전",
       next: "다음",
+      last: "맨 끝",
+      page: "페이지 번호",
       noFilteredRepos: "조건에 맞는 저장소가 없습니다.",
 
       emptyGuideTitle: "저장소를 검색해보세요.",
@@ -292,8 +295,11 @@ export const translations = {
       noBio: "소개 글이 없습니다.",
       noLocation: "지역 정보 없음",
       profileLink: "프로필 보기",
+      first: "맨 처음",
       previous: "이전",
       next: "다음",
+      last: "맨 끝",
+      page: "페이지 번호",
     },
 
     footer: {
@@ -459,8 +465,11 @@ export const translations = {
       sortByStars: "Most stars",
       sortByForks: "Most forks",
 
+      first: "First page",
       previous: "Previous",
       next: "Next",
+      last: "Last page",
+      page: "Page number",
       noFilteredRepos: "No repositories match the selected filters.",
 
       emptyGuideTitle: "Search repositories.",
@@ -542,8 +551,11 @@ export const translations = {
       noBio: "No bio available.",
       noLocation: "No location",
       profileLink: "View profile",
+      first: "First page",
       previous: "Previous",
       next: "Next",
+      last: "Last page",
+      page: "Page number",
     },
 
     footer: {

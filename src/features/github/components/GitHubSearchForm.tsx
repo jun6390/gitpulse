@@ -65,7 +65,7 @@ const GitHubSearchFormFields = ({
           onChange={(e) => handleChangeUsername(e.target.value)}
           placeholder={placeholder}
           disabled={isLoading}
-          className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 pr-10 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-60 dark:border-gray-800 dark:bg-black dark:text-white dark:placeholder:text-gray-500 dark:focus:border-blue-400"
+          className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 pr-10 text-base text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-60 dark:border-gray-800 dark:bg-black dark:text-white dark:placeholder:text-gray-500 dark:focus:border-blue-400 sm:text-sm"
         />
 
         {username && (

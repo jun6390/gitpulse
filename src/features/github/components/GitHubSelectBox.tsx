@@ -30,7 +30,7 @@ const GitHubSelectBox = ({
         value={value}
         aria-label={ariaLabel}
         onChange={(e) => onChange(e.target.value)}
-        className="h-12 rounded-2xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-900 outline-none transition focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-white dark:focus:border-gray-600"
+        className="h-12 rounded-2xl border border-gray-200 bg-white px-4 text-base font-medium text-gray-900 outline-none transition focus:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-white dark:focus:border-gray-600 sm:text-sm"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

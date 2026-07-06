@@ -167,8 +167,11 @@ const RankingView = () => {
             <GitHubPagination
               currentPage={currentPage}
               totalPages={totalPages}
+              firstLabel={t.first}
               previousLabel={t.previous}
               nextLabel={t.next}
+              lastLabel={t.last}
+              pageLabel={t.page}
               onPageChange={handlePageChange}
             />
           </div>

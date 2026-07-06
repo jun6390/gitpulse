@@ -136,10 +136,10 @@ const Header = () => {
 
         {/* 모바일 메뉴 - 부드럽게 열림/닫힘 */}
         <div
-          className={`overflow-hidden border-t bg-white transition-all duration-300 ease-out md:hidden dark:bg-black ${
+          className={`border-t bg-white transition-all duration-300 ease-out md:hidden dark:bg-black ${
             isMobileMenuOpen
-              ? "max-h-[680px] border-gray-200 opacity-100 dark:border-gray-800"
-              : "max-h-0 border-transparent opacity-0 dark:border-transparent"
+              ? "max-h-[680px] overflow-visible border-gray-200 opacity-100 dark:border-gray-800"
+              : "max-h-0 overflow-hidden border-transparent opacity-0 dark:border-transparent"
           }`}
         >
           <div
